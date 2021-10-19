@@ -84,3 +84,7 @@ ReactDOM.render(jsx, document.getElementById("app"));
 //import { setTextFilter, sortByAmount, sortByDate } from "./actions/filters";
 //import getVisibleExpenses from "./selectors/expenses";
 //- once you the delete all the above and save app.js file git will detect a change in app.js file
+//- re-run C:\ComputerD\react-course-projects032021\xpensify-app6>git status
+//- C:\ComputerD\react-course-projects032021\xpensify-app6>git add src/app.js
+//- C:\ComputerD\react-course-projects032021\xpensify-app6>git commit -m "remove dummy expenses data"
+//- re-run C:\ComputerD\react-course-projects032021\xpensify-app6>git status
