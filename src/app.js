@@ -3,32 +3,11 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import AppRouter from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
-import { addExpense } from "./actions/expenses";
-import { setTextFilter, sortByAmount, sortByDate } from "./actions/filters";
-import getVisibleExpenses from "./selectors/expenses";
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
 import "react-dates/lib/css/_datepicker.css";
 
 const store = configureStore();
-
-//dispatch Expense Action Generator
-store.dispatch(
-  addExpense({ description: "Water bill", amount: 2000, createdAt: 3000 })
-);
-store.dispatch(
-  addExpense({ description: "Gas bill", amount: 5000, createdAt: -23000 })
-);
-store.dispatch(
-  addExpense({ description: "school bill", amount: 1200, createdAt: 4300000 })
-);
-store.dispatch(
-  addExpense({ description: "rent", amount: 36000, createdAt: 1000 })
-);
-
-const state = store.getState();
-const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
-console.log(visibleExpenses);
 
 const jsx = (
   <Provider store={store}>
@@ -93,3 +72,15 @@ ReactDOM.render(jsx, document.getElementById("app"));
 //- re-run C:\ComputerD\react-course-projects032021\xpensify-app6>git status
 //C:\ComputerD\react-course-projects032021\xpensify-app6>git add .
 //the above command move all untracked files to stage changes area
+//- re-run C:\ComputerD\react-course-projects032021\xpensify-app6>git status
+//C:\ComputerD\react-course-projects032021\xpensify-app6>git commit -m "initial commit"
+//the above command will move all your files and folders from stage changes to commit
+//- the -m flag represent message to title your commit or save codes
+//- re-run C:\ComputerD\react-course-projects032021\xpensify-app6>git status
+//- open app.js then remove all the action generator function dispatch to redux store manually,
+//remove state function as well
+//- remove the following import as well
+//import { addExpense } from "./actions/expenses";
+//import { setTextFilter, sortByAmount, sortByDate } from "./actions/filters";
+//import getVisibleExpenses from "./selectors/expenses";
+//- once you the delete all the above and save app.js file git will detect a change in app.js file
