@@ -465,4 +465,29 @@ ReactDOM.render(jsx, document.getElementById("app"));
 // public/styles.css
 // public/styles.css.map
 //to this public/dist/
-//- push to both local and remote github
+//- push to both local and remote github repository
+//C:\ComputerD\react-course-projects032021\xpensify-app6>git status
+//C:\ComputerD\react-course-projects032021\xpensify-app6>git commit -am "setup devDependencies and dist folder"
+//use the above command where you only have modified files and folder which are not yet committed.
+//- C:\ComputerD\react-course-projects032021\xpensify-app6>git push
+//the above command will push to remote git repository
+//C:\ComputerD\react-course-projects032021\xpensify-app6>git push heroku main
+//the above command will redeploy your app to heroku web hosting site
+//- C:\ComputerD\react-course-projects032021\xpensify-app6>heroku open
+//its will open your web on this url https://react-expensify192021.herokuapp.com/
+//- open Network tab in the browser to view that all the assets is server-up from dist folder by hover it.
+
+//New Feature Workflow
+//- open ExpenseListItem.js and it companion ExpenseListItem.test.js file as well for
+//modification of amount and created format
+//- start up the following
+//C:\ComputerD\react-course-projects032021\xpensify-app6>npm run dev-server
+//C:\ComputerD\react-course-projects032021\xpensify-app6>yarn test -- --watch
+//- import moment from "moment"; onto ExpenseListItem.js file use it to formate createdAt.
+//- after add new format to createdAt it throw error on the jest test suit just press u to
+//update the changes.
+//- install numeral library to format amount property like this
+// C:\ComputerD\react-course-projects032021\xpensify-app6>yarn add numeral@2.0.6
+//- import numeral from 'numeral'; onto ExpenseListItem.js file and use it.
+//- after add new format to amount it throw error on the jest test suit just press u to
+//update the changes.
