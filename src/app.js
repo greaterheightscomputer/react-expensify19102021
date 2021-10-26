@@ -491,3 +491,41 @@ ReactDOM.render(jsx, document.getElementById("app"));
 //- import numeral from 'numeral'; onto ExpenseListItem.js file and use it.
 //- after add new format to amount it throw error on the jest test suit just press u to
 //update the changes.
+//- push to both local and remote github repository
+//C:\ComputerD\react-course-projects032021\xpensify-app6>git status
+//C:\ComputerD\react-course-projects032021\xpensify-app6>git commit -am "setup formatting for amount and createdAt"
+//- C:\ComputerD\react-course-projects032021\xpensify-app6>git push
+//the above command will push to remote git repository
+//C:\ComputerD\react-course-projects032021\xpensify-app6>git push heroku main
+//the above command will redeploy your app to heroku web hosting site
+//- C:\ComputerD\react-course-projects032021\xpensify-app6>heroku open
+//its will open your web on this url https://react-expensify192021.herokuapp.com/
+
+//Build it: Adding Total Selector
+//We are going to add a new component after filter component which will sum up all the amount in the expensify app.
+//startup
+//C:\ComputerD\react-course-projects032021\xpensify-app6>yarn test -- --watch
+//C:\ComputerD\react-course-projects032021\xpensify-app6>yarn run dev-server
+//- create expenses-total.js file onto src/selectors folder
+//- create expenses-total.test.js file onto src/tests/selectors folder
+//- import the following onto expenses-total.test.js file
+//import selectExpensesTotal from "../../selectors/expenses-total";
+//import expenses from "../fixtures/expenses";
+//- setup the test cases inside expenses-total.test.js
+//- setup expenses-total.js file
+
+//Built it: Adding Summary Component
+//- create ExpensesSummary.js file inside src/components folder
+//- create ExpensesSummary.test.js file inside src/tests/components folder
+//- setup ExpensesSummary.js file by importing the following:
+//import React from "react";
+//import { connect } from 'react-redux';
+//import numeral from "numeral";
+//-setup ExpensesSummary.test.js by import the following
+// import React from "react";
+// import { shallow } from 'enzyme';
+// import { ExpensesSummary } from "../../components/ExpensesSummary";
+//- connect ExpensesSummary.js to redux store
+//- import ExpensesSummary component onto ExpenseDashboardPage.js file for render.
+//- let start up development server like this
+// C:\ComputerD\react-course-projects032021\xpensify-app6>yarn run dev-server
