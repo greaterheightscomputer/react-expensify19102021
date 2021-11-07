@@ -1,18 +1,3 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
-
-// const ExpenseListItem = ({ id, description, amount, createdAt }) => (
-//   <div>
-//     <Link to={`/edit/${id}`}>
-//       <h3>{description}</h3>
-//     </Link>
-//     <p>
-//       Amount: {amount} - Create Date: {createdAt}
-//     </p>
-//   </div>
-// );
-// export default ExpenseListItem;
-
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";

@@ -8,7 +8,7 @@ import {
 } from "../../actions/filters";
 
 test("should generate set start date action object", () => {
-  const action = setStartDate(moment(0)); //zeron pass as an argument onto moment instant is a fixed time in 1970 called unix epch
+  const action = setStartDate(moment(0));
   expect(action).toEqual({
     type: "SET_START_DATE",
     startDate: moment(0),

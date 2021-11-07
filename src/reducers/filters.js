@@ -1,14 +1,5 @@
 import moment from "moment";
 
-//Filter Reducer
-// const filtersReducerDefaultState = {
-//   text: "",
-//   sortBy: "date",
-//   startDate: undefined,
-//   endDate: undefined,
-// };
-
-//changing startDate and endDate properties from undefined to moment instance
 const filtersReducerDefaultState = {
   text: "",
   sortBy: "date",
