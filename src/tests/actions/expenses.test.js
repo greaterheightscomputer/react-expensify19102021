@@ -5,12 +5,26 @@ import {
   addExpense,
   editExpense,
   removeExpense,
+  setExpenses,
+  startSetExpenses,
 } from "../../actions/expenses";
 import expenses from "../fixtures/expenses";
 import database from "../../firebase/firebase";
 
 //setup fake Redux store configuration
 const createMockStore = configureMockStore([thunk]);
+
+//done means execute or run the beforeEach() method first then run the asynchronous test cases later.
+beforeEach((done) => {
+  const expensesData = {};
+  expenses.forEach(({ id, description, note, amount, createdAt }) => {
+    expensesData[id] = { description, note, amount, createdAt };
+  });
+  database
+    .ref("expenses")
+    .set(expensesData)
+    .then(() => done());
+});
 
 test("should setup remove expense action object", () => {
   const action = removeExpense({ id: "123abc" });
@@ -160,4 +174,26 @@ test("should add expense with default values to database and redux store", (done
       expect(snapshot.val()).toEqual(expenseData);
       done();
     });
+});
+
+//test case for fetch setExpenses Action function from redux store
+test("should setup setExpense action object with data", () => {
+  const action = setExpenses(expenses);
+  expect(action).toEqual({
+    type: "SET_EXPENSES",
+    expenses,
+  });
+});
+
+//test case for fetch startSetExpenses Action function from firebase
+test("should fetch the expenses from firebase", (done) => {
+  const store = createMockStore({});
+  store.dispatch(startSetExpenses()).then(() => {
+    const actions = store.getActions();
+    expect(actions[0]).toEqual({
+      type: "SET_EXPENSES",
+      expenses,
+    });
+    done();
+  });
 });

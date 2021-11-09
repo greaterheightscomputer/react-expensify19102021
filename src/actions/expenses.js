@@ -74,3 +74,37 @@ export const editExpense = (id, updates) => ({
   id,
   updates,
 });
+
+//Fetching data from firebase
+//SET_EXPENSES
+//dispatch fetch data to redu
+export const setExpenses = (expenses) => ({
+  type: "SET_EXPENSES",
+  expenses,
+});
+
+//fetching data asynchronously
+//- we need to do the following inorder inside startSetExpenses() function
+//1. Fetch all expense data once
+//2. Parse that data into an array
+//3. Dispatch SET_EXPENSES to redux store
+export const startSetExpenses = () => {
+  //return key pass onto database.ref() will allow us to access the data fetch from firebase on
+  //app.js store.dispatch(startAddExpense()).then(() => {})
+  return (dispatch) => {
+    return database
+      .ref("expenses")
+      .once("value")
+      .then((snapshot) => {
+        const expenses = [];
+
+        snapshot.forEach((childSnapshot) => {
+          expenses.push({
+            id: childSnapshot.key,
+            ...childSnapshot.val(),
+          });
+        });
+        dispatch(setExpenses(expenses));
+      });
+  };
+};

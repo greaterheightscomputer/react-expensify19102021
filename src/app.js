@@ -3,12 +3,23 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import AppRouter from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
+import { startSetExpenses } from "./actions/expenses";
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
 import "react-dates/lib/css/_datepicker.css";
 import "./firebase/firebase";
 // import "./playground/promises";
 
+// const store = configureStore();
+// const jsx = (
+//   <Provider store={store}>
+//     <AppRouter />
+//   </Provider>
+// );
+
+// ReactDOM.render(jsx, document.getElementById("app"));
+
+//using startSetExpenses function to fetch data from firebase
 const store = configureStore();
 const jsx = (
   <Provider store={store}>
@@ -16,7 +27,12 @@ const jsx = (
   </Provider>
 );
 
-ReactDOM.render(jsx, document.getElementById("app"));
+//render loading on the browser while the data is stall fetching from firebase
+ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
+
+store.dispatch(startSetExpenses()).then(() => {
+  ReactDOM.render(jsx, document.getElementById("app")); //once the data is fetched the  render the app
+});
 
 //- open each file that that makeup the expensify app to remove unecessary codes.
 //- startup the following
@@ -249,12 +265,59 @@ ReactDOM.render(jsx, document.getElementById("app"));
 //C:\ComputerD\react-course-projects032021\xpensify-app7>git status
 //you will see some files that you don't want to push to github, the .env.test and .env.development.
 //open gitignore to ignore those two files from githut, then run git status again.
-//C:\ComputerD\react-course-projects032021\xpensify-app6>git commit -am "setup devDependencies and dist folder"
-//use the above command where you only have modified files and folder which are not yet committed.
-//- C:\ComputerD\react-course-projects032021\xpensify-app6>git push
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git commit -m "Setup test database environment variables"
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git push
 //the above command will push to remote git repository
-//C:\ComputerD\react-course-projects032021\xpensify-app6>git push heroku main
+//C:\ComputerD\react-course-projects032021\xpensify-app7>git push heroku main
 //the above command will redeploy your app to heroku web hosting site
-//- C:\ComputerD\react-course-projects032021\xpensify-app6>heroku open
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>heroku open
 //its will open your web on this url https://react-expensify192021.herokuapp.com/
 //- open Network tab in the browser to view that all the assets is server-up from dist folder by hover it.
+//- test your app to make sure that the input data reside in the firebase.
+//- startup the development app as well for testing like this
+//C:\ComputerD\react-course-projects032021\xpensify-app7>npm run dev-server
+
+//Fetching Expenses: Part I
+//- currently if you refresh the browser on the development app and the deployed app the data
+//inserted on db will not re-render, that is why we need to fetch data from db for the purpose
+//of re-rendering
+//- open src/tests/actions/expenses.test.js file inorder to write test case to insert data onto test firebase like this
+// beforeEach((done) => {
+//   const expensesData = {};
+//   expenses.forEach(({ id, description, note, amount, createdAt }) => {
+//     expensesData[id] = { description, note, amount, createdAt };
+//   });
+//   database.ref("expenses").set(expensesData).then(()=> done());
+// });
+//- the above beforeEach() method will run before each asynchronous test cases.
+//- run jest test suite and open your test db immediately to see how the db data changes.
+//- you will see that the dummy expenses array object will be inserted first before asynchronous
+//test cases.
+//- open src/actions/expenses.js for writing code to fetch data from firebase which is
+//setExpenses() Action function
+//- write test case for setExpenses Action function in tests/actions/expenses.test.js
+//- startup jest test suite.
+//- open src/reducers/expenses.js file with its test file counterpart to setup setExpenses
+//Action function
+
+//Fetching Expenses: Part II
+//- open src/actions/expenses.js for writing code to fetch data from firebase which function is
+//startSetExpenses() Async Action function
+//- import { startAddExpense } from "./actions/expenses"; onto app.js file
+//- using startSetExpenses function to fetch data from firebase on app.js file like this
+// const store = configureStore();
+// const jsx = (
+//   <Provider store={store}>
+//     <AppRouter />
+//   </Provider>
+// );
+
+// //render loading on the browser while the data is stall fetching from firebase
+// ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
+// store.dispatch(startSetExpenses()).then(() => {
+//   ReactDOM.render(jsx, document.getElementById("app"));
+// });
+//- startup the dev-server
+//- add test case for startSetExpenses() function inside tests/actions/expenses.test.js file.
+//- {startSetExpenses} from "../../actions/expenses"; onto expenses.test.js file for use.
+//- startup jest test suite

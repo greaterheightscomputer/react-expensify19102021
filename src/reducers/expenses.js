@@ -17,6 +17,9 @@ const expensesReducer = (state = expensesReducerDefaultState, action) => {
           return expense;
         }
       });
+    //fetching data from redux store
+    case "SET_EXPENSES":
+      return action.expenses;
     default:
       return state;
   }
