@@ -7,6 +7,7 @@ import {
   removeExpense,
   setExpenses,
   startSetExpenses,
+  startRemoveExpense,
 } from "../../actions/expenses";
 import expenses from "../fixtures/expenses";
 import database from "../../firebase/firebase";
@@ -106,8 +107,9 @@ test("should setup add expense action object with provided values", () => {
 //const createMockStore = configureMockStore([thunk]);
 
 test("should add expense to database and redux store", (done) => {
-  //we add done onto callback function as an argument becos its async test case, its will force
-  //the async request to complete before making assertion which is expect() method
+  //- we add done onto callback function as an argument becos its async test case, its will force
+  //the async request to complete before making assertion which is expect() method.
+  //- its means once the done() method is called or consumed or invoked then execute assertion.
   const store = createMockStore({});
   const expenseData = {
     description: "Rent",
@@ -186,6 +188,7 @@ test("should setup setExpense action object with data", () => {
 });
 
 //test case for fetch startSetExpenses Action function from firebase
+//dispatch async action function untill done function is called
 test("should fetch the expenses from firebase", (done) => {
   const store = createMockStore({});
   store.dispatch(startSetExpenses()).then(() => {
@@ -196,4 +199,25 @@ test("should fetch the expenses from firebase", (done) => {
     });
     done();
   });
+});
+
+//test case for startRemoveExpense() inorder to remove individual object
+test("should remove expense from firebase", (done) => {
+  const store = createMockStore({});
+  const id = expenses[2].id;
+  store
+    .dispatch(startRemoveExpense({ id }))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: "REMOVE_EXPENSE",
+        id,
+      });
+      return database.ref(`expenses/${id}`).once("value"); //fetch the data back to verified that is the actuall data you want to delete
+    })
+    .then((snapshot) => {
+      // expect(snapshot.val()).toBeFalsy(); //toBeFalsy() === null which means once the data is deleted in the db, its will actually return null as a value
+      expect(snapshot.val()).toBe(null);
+      done();
+    });
 });

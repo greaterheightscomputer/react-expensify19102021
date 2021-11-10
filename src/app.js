@@ -272,7 +272,6 @@ store.dispatch(startSetExpenses()).then(() => {
 //the above command will redeploy your app to heroku web hosting site
 //- C:\ComputerD\react-course-projects032021\xpensify-app7>heroku open
 //its will open your web on this url https://react-expensify192021.herokuapp.com/
-//- open Network tab in the browser to view that all the assets is server-up from dist folder by hover it.
 //- test your app to make sure that the input data reside in the firebase.
 //- startup the development app as well for testing like this
 //C:\ComputerD\react-course-projects032021\xpensify-app7>npm run dev-server
@@ -321,3 +320,25 @@ store.dispatch(startSetExpenses()).then(() => {
 //- add test case for startSetExpenses() function inside tests/actions/expenses.test.js file.
 //- {startSetExpenses} from "../../actions/expenses"; onto expenses.test.js file for use.
 //- startup jest test suite
+
+//- push to both local and remote github repository
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git status
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git commit -am "Get firebase expenses on start"
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git push
+//the above command will push to remote git repository
+//C:\ComputerD\react-course-projects032021\xpensify-app7>git push heroku main
+//the above command will redeploy your app to heroku web hosting site
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>heroku open
+//its will open your web on this url https://react-expensify192021.herokuapp.com/
+//- refresh the browser to see that it will still render the same data inside the firebase.
+
+//Remove Expense
+//- create of startRemoveExpense Async Action Function inside src/actions/expenses.js file.
+//- write the test case for startRemoveExpense Asych Action function inside
+//tests/actions/expenses.test.js file and import startRemoveExpense onto expenses.test.js
+//- starup jest test suite
+//- implement startRemoveExpense into the EditExpensePage component by opening EditExpensePage.js
+//file using startRemoveExpense Async Action function in place of removeExpense Action function.
+//- open tests/components/EditExpensePage.test.js file inorder to use startRemoveExpense
+//Asyn Action function in place of removeExpense Action function.
+//- startup dev-server inorder to actually delete one data on firebase db.

@@ -68,6 +68,24 @@ export const removeExpense = ({ id } = {}) => ({
   type: "REMOVE_EXPENSE",
   id,
 });
+
+//Asynchronous REMOVE_EXPENSE Action function
+//- we need to do the following inorder inside startRemoveExpense() function
+//1. Create startRemoveExpense (same call signature as removeExpense)
+//2. Test startRemoveExpense with "should remove expenses from firebase"
+//3. Use startRemoveExpense in EditExpensePage instead of removeExpense
+//4. Adjust EditExpensePage tests
+export const startRemoveExpense = ({ id } = {}) => {
+  return (dispatch) => {
+    return database
+      .ref(`expenses/${id}`)
+      .remove()
+      .then(() => {
+        dispatch(removeExpense({ id }));
+      });
+  };
+};
+
 //EDIT_EXPENSE
 export const editExpense = (id, updates) => ({
   type: "EDIT_EXPENSE",
