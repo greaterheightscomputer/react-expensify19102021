@@ -342,3 +342,25 @@ store.dispatch(startSetExpenses()).then(() => {
 //- open tests/components/EditExpensePage.test.js file inorder to use startRemoveExpense
 //Asyn Action function in place of removeExpense Action function.
 //- startup dev-server inorder to actually delete one data on firebase db.
+
+//- push to both local and remote github repository
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git status
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git commit -am "Setup startRemoveExpense"
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git push
+//the above command will push to remote git repository
+//C:\ComputerD\react-course-projects032021\xpensify-app7>git push heroku main
+//the above command will redeploy your app to heroku web hosting site
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>heroku open
+//its will open your web on this url https://react-expensify192021.herokuapp.com/
+
+//Update Expense
+//- create of startEditExpense Async Action Function inside src/actions/expenses.js file.
+//- write the test case for startEditExpense Asych Action function inside
+//tests/actions/expenses.test.js file and import startEditExpense onto expenses.test.js
+//- starup jest test suite
+//- implement startEditExpense into the EditExpensePage component by opening EditExpensePage.js
+//file using startEditExpense Async Action function in place of editExpense Action function.
+//- open tests/components/EditExpensePage.test.js file inorder to use startEditExpense
+//Asyn Action function in place of editExpense Action function.
+//- starup jest test suite
+//- startup dev-server inorder to actually edit one data on firebase db.

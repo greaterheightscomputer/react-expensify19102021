@@ -49,6 +49,8 @@ export const startAddExpense = (expenseData = {}) => {
     } = expenseData;
 
     const expense = { description, note, amount, createdAt };
+    //return keyword beside the database means pass the data return in then() promise method to
+    //the test case, without it your test case will not be successfull passed.
     return database
       .ref("expenses")
       .push(expense)
@@ -70,7 +72,7 @@ export const removeExpense = ({ id } = {}) => ({
 });
 
 //Asynchronous REMOVE_EXPENSE Action function
-//- we need to do the following inorder inside startRemoveExpense() function
+//- we need to do the following inside startRemoveExpense() function
 //1. Create startRemoveExpense (same call signature as removeExpense)
 //2. Test startRemoveExpense with "should remove expenses from firebase"
 //3. Use startRemoveExpense in EditExpensePage instead of removeExpense
@@ -92,6 +94,24 @@ export const editExpense = (id, updates) => ({
   id,
   updates,
 });
+
+//Asynchronous EDIT_EXPENSE Action function
+//- we need to do the following inside startRemoveExpense() function
+//1. Create startEditExpense (same call signature as editExpense)
+//2. Test startEditExpense with "should edit expenses from firebase"
+//3. Use startEditExpense in EditExpensePage instead of removeExpense
+//4. Adjust EditExpensePage tests
+
+export const startEditExpense = (id, updates) => {
+  return (dispatch) => {
+    return database
+      .ref(`expenses/${id}`)
+      .update(updates)
+      .then(() => {
+        dispatch(editExpense(id, updates));
+      });
+  };
+};
 
 //Fetching data from firebase
 //SET_EXPENSES
