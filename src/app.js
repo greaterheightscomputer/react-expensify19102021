@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import AppRouter from "./routers/AppRouter";
+import AppRouter, { history } from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
 import { startSetExpenses } from "./actions/expenses";
+import { login, logout } from "./actions/auth";
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
 import "react-dates/lib/css/_datepicker.css";
-import "./firebase/firebase";
+import { firebase } from "./firebase/firebase";
 // import "./playground/promises";
 
 // const store = configureStore();
@@ -16,23 +17,7 @@ import "./firebase/firebase";
 //     <AppRouter />
 //   </Provider>
 // );
-
 // ReactDOM.render(jsx, document.getElementById("app"));
-
-//using startSetExpenses function to fetch data from firebase
-const store = configureStore();
-const jsx = (
-  <Provider store={store}>
-    <AppRouter />
-  </Provider>
-);
-
-//render loading on the browser while the data is stall fetching from firebase
-ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
-
-store.dispatch(startSetExpenses()).then(() => {
-  ReactDOM.render(jsx, document.getElementById("app")); //once the data is fetched the  render the app
-});
 
 //- open each file that that makeup the expensify app to remove unecessary codes.
 //- startup the following
@@ -313,8 +298,9 @@ store.dispatch(startSetExpenses()).then(() => {
 
 // //render loading on the browser while the data is stall fetching from firebase
 // ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
+
 // store.dispatch(startSetExpenses()).then(() => {
-//   ReactDOM.render(jsx, document.getElementById("app"));
+//   ReactDOM.render(jsx, document.getElementById("app")); //once the data is fetched the  render the app
 // });
 //- startup the dev-server
 //- add test case for startSetExpenses() function inside tests/actions/expenses.test.js file.
@@ -364,3 +350,286 @@ store.dispatch(startSetExpenses()).then(() => {
 //Asyn Action function in place of editExpense Action function.
 //- starup jest test suite
 //- startup dev-server inorder to actually edit one data on firebase db.
+
+//- push to both local and remote github repository
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git status
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git commit -am "Add startEditExpense"
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git push
+//the above command will push to remote git repository
+//C:\ComputerD\react-course-projects032021\xpensify-app7>git push heroku main
+//the above command will redeploy your app to heroku web hosting site
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>heroku open
+//its will open your web on this url https://react-expensify192021.herokuapp.com/
+
+//Firebase Authentication
+//- we shall use Authentication to make user to login onto the app before they can use the app.
+//An expenses created by user A will not be visible by user B.
+
+//Login Page and Google Authentication
+//- Challenge area
+//1. Create LoginPage component with "Login" button.
+//2. Add snapshot test for LoginPage.
+//3. Show Login component at root of app -> /
+//4. Show ExpenseDashboardPage after login -> /dashboard
+//- create LoginPage.js in src/components/ folder and set it up.
+//- create LoginPage.test.js in src/tests/components/ folder and set it up.
+//- startup jest test suite
+//- startup dev-server
+//- open routers/AppRouter.js inorder to change the root app from ExpenseDashboardPage component to LoginPage component
+//- import { LoginPage } from "../components/LoginPage"; onto routers/AppRouter.js file like this
+//<Route path="/" component={LoginPage} exact={true} />
+//<Route path="/dashboard" component={ExpenseDashboardPage} exact />
+//- refresh the browser to view the Login button
+//- go http://localhost:8080/dashboard to view the dashboard page
+//- go to firebase.google.com to enable firebase Authentication
+//- click on Authentication, click on Get started, click on Sign-in method, click on Google,
+//click on Enable.
+//- open firebase/firebase.js file to setup Authentication configuration and export it as a
+//named export.
+//- Tracking of Authentication by import { firebase } from "./firebase/firebase"; onto app.js file
+//auth()-> use to geting Authentication related functionalities
+//onAuthStateChanged()-> its fired when the state of authencation changes, meaning when user get authenticated its fired and when user is unauthenticated its fired as well.
+// firebase.auth().onAuthStateChanged((user) => {
+//   if (user) {
+//     console.log("log in");
+//   } else {
+//     console.log("log out");
+//   }
+// });
+//- create file auth.js inside src/actions folder for setting up authentication then create
+//startLogin Async Action function.
+//- iimport {firebase, googleAuthProvider } from "../firebase/firebase" onto actions/auth.js
+//- reopen LoginPage.js file to connect the component to redux store and use startLogin() Async Action Function
+//- import the following onto LoginPage.js file
+// import { connect} from 'react-redux';
+// import { startLogin } from "../actions/auth";
+//- open AppRouter.js file to change LoginPage from named export to default export like this
+//import { LoginPage } from "../components/LoginPage";
+//to this
+//import LoginPage from "../components/LoginPage"; becos we are importing the connected
+//component
+//- startup dev-server, refresh the browser and open the browser console you will view log out
+//on the browser console.
+//- click on Login button, its will render a dialogue box for you to enter email and password
+//then it will change the authentication status from log out to log in.
+//- if you are seeing the above login on to browser console its means you have already setup
+//the authentication but we are not using yet. If you refresh the browser again you will still see login
+
+//Log Out
+//- src/components/Header.js to add the LogOut button
+//- open src/actions/auth.js file to create startLogout Async Action Function for logging out
+//the user from the app.
+//- re-open src/components/Header.js inorder to connect the component to redux store and import
+//startLogout Async Action function for use.
+//- import the following
+//import {connect} from 'react-redux';
+//import { startLogout } from "../actions/auth";
+//- remember to export the Header unconnected component.
+//- startup dev-server
+//- click on Log out button to logout of the app
+//- open tests/components/Header.test.js file for creating test case
+//- change the Header import on Header.test.js from default export to named export becos we
+//cannot test the Header connected component like this
+// from import Header from "../../components/Header";
+// to this import {Header} from "../../components/Header";
+//- modify the test case in Header.test.js
+//- startup jest suite
+//- open tests/components/LoginPage.test.js to add new test case with title of
+//"should call startLogin on button click".
+
+//Redirecting Login or Logout
+//- install history library like this
+//C:\ComputerD\react-course-projects032021\xpensify-app7>yarn add history@4.7.2
+//the above library will enable us to redirect to any page.
+//- import createHistory from "history/createBrowserHistory";  and use it on AppRouter.js file
+//lik this by creating
+//export const history = createHistory(); we export it for use in other file.
+//switching from <BrowserRouter> to <Router history={history}> with history as a props
+//- import history onto app.js file for use like this
+//import AppRouter, { history } from "./routers/AppRouter";
+//- use history inside onAuthStateChanged() method
+// firebase.auth().onAuthStateChanged((user) => {
+//   if (user) {
+//     console.log("log in");
+//   } else {
+//     // console.log("log out");
+//     history.push("/"); //"/" is the LoginPage
+//   }
+// });
+//-startup dev-server
+//- click on Login, manually go to http://localhost:8080/dashboard then click on Logout button its will take you to Home Page.
+//- is to make sure that is already existing users that their is expenses is fetched from db by cutting
+// store.dispatch(startSetExpenses()).then(() => {
+//   ReactDOM.render(jsx, document.getElementById("app"));
+// });
+// and pasting it inside if statement of onAuthStateChanged() method
+//- cutting ReactDOM.render(jsx, document.getElementById("app")); and past it inside else block
+//of onAuthStateChanged() method inorder to render the logout page on logging out else its will
+//render loading... only
+
+// const store = configureStore();
+// const jsx = (
+//   <Provider store={store}>
+//     <AppRouter />
+//   </Provider>
+// );
+
+// ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
+
+// firebase.auth().onAuthStateChanged((user) => {
+//   if (user) {
+//     store.dispatch(startSetExpenses()).then(() => {
+//       ReactDOM.render(jsx, document.getElementById("app"));
+//     });
+//   } else {
+//     ReactDOM.render(jsx, document.getElementById("app"));
+//     history.push("/");
+//   }
+// });
+
+//Avoid duplicate ReactDOM.render(jsx, document.getElementById("app")); code on bothe if and
+//else statement of onAuthStateChanged() method by creating renderApp() function
+// const store = configureStore();
+// const jsx = (
+//   <Provider store={store}>
+//     <AppRouter />
+//   </Provider>
+// );
+
+// let hasRendered = false;
+// const renderApp = () => {
+//   if (!hasRendered) {
+//     ReactDOM.render(jsx, document.getElementById("app"));
+//     hasRendered = true;
+//   }
+// };
+
+// ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
+
+// firebase.auth().onAuthStateChanged((user) => {
+//   if (user) {
+//     store.dispatch(startSetExpenses()).then(() => {
+//       renderApp();
+//       //history.location.pathname === "/" means redirect user to dashboard if the user is already on LoginPage
+//       if (history.location.pathname === "/") {
+//         history.push("/dashboard");
+//       }
+//     });
+//   } else {
+//     renderApp();
+//     history.push("/");
+//   }
+// });
+//- test your app by startup dev-server
+
+//The Auth Reducer
+//- if user logout, the user still have access to Create Expense tab on the app in the browser
+//to avoid this we need to store some information related to user authentication to redux store
+//inorder to keep track wheither the user is login or not by storing userId onto redux store.
+//- We have access to user id from the user argument pass to onAuthStateChanged() method like this
+// const store = configureStore();
+// const jsx = (
+//   <Provider store={store}>
+//     <AppRouter />
+//   </Provider>
+// );
+
+// let hasRendered = false;
+// const renderApp = () => {
+//   if (!hasRendered) {
+//     ReactDOM.render(jsx, document.getElementById("app"));
+//     hasRendered = true;
+//   }
+// };
+
+// ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
+
+// firebase.auth().onAuthStateChanged((user) => {
+//   if (user) {
+//     console.log("uid", user.uid);
+//     store.dispatch(startSetExpenses()).then(() => {
+//       renderApp();
+//       if (history.location.pathname === "/") {
+//         history.push("/dashboard");
+//       }
+//     });
+//   } else {
+//     renderApp();
+//     history.push("/");
+//   }
+// });
+//- Login onto app, open browser console to view the user id like this: uid- Z2boILCFbUWevX799y3UoDXFOA92
+//we shall use the user id to check wheither user is login or not.
+//- create reducer for authentication
+//- create auth.js file inside src/reducers/ folder for setting up user authentication
+//- create login and logout Action Generator Function onto src/actions/auth.js
+//- connect the authReducer to redux store by open src/store/configureStore.js file
+//- import authReducer from "../reducers/auth"; onto store/configuerStore.js file for use
+//- add authReducer onto combineReducers like this
+//combineReducers({
+//   expenses: expensesReducer,
+//   filters: filtersReducer,
+//   auth: authReducer,
+//}),
+//- let dispatch login and logout Action Generator Function in app.js file
+//dispatch login Action Generator when the user login and dispatch logout when the user logout
+//on app.js file
+//- import { login, logout } from "./actions/auth"; onto app.js file for dispatching to redux
+//store like this
+const store = configureStore();
+const jsx = (
+  <Provider store={store}>
+    <AppRouter />
+  </Provider>
+);
+
+let hasRendered = false;
+const renderApp = () => {
+  if (!hasRendered) {
+    ReactDOM.render(jsx, document.getElementById("app"));
+    hasRendered = true;
+  }
+};
+
+ReactDOM.render(<p>Loading...</p>, document.getElementById("app"));
+
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    // console.log("uid", user.uid);
+    store.dispatch(login(user.uid)); //dispatching login
+    store.dispatch(startSetExpenses()).then(() => {
+      renderApp();
+      if (history.location.pathname === "/") {
+        history.push("/dashboard");
+      }
+    });
+  } else {
+    store.dispatch(logout()); //dispatching logout
+    renderApp();
+    history.push("/");
+  }
+});
+//let startup dev-server and use Redux dev tool in the browser tab to track the changes.
+//- let write test cases for login Action Function, logout Action Function and authReducer function
+//- create auth.test.js file inside tests/reducers folder
+//- import authReducer from '../../reducers/auth'; onto auth.test.js file
+//- setup the test cases
+//- startup jest test suite
+//- create auth.test.js inside tests/actions/ folder
+//- import { login, logout } from "../../actions/auth"; onto tests/actions/auth.test.js file
+
+//Private Only Routes
+//- we are going to modify routers/AppRouter.js inorder to allow only those who are login to
+//navigate on the routes by using PrivateRoute component.
+//- create PrivateRoute.js inside src/routers/ folder
+//- setup PrivateRoute.js component
+//- open routers/AppRouter.js file for modification
+//- import PrivateRoute from "./PrivateRoute"; onto AppRouter.js file
+//- using the imported PrivateRoute component, change these Route components from
+// <Route path="/dashboard" component={ExpenseDashboardPage} exact />
+// <Route path="/create" component={AddExpensePage} exact />
+// <Route path="/edit/:id" component={EditExpensePage} exact />
+//to these
+// <PrivateRoute path="/dashboard" component={ExpenseDashboardPage} exact />
+// <PrivateRoute path="/create" component={AddExpensePage} exact />
+// <PrivateRoute path="/edit/:id" component={EditExpensePage} exact />

@@ -338,7 +338,7 @@ firebase.initializeApp(firebaseConfig); //startup firebase database
 //Array Data in Firebase: Part I
 //Firebase does not support array
 //- let delete the data in firebase
-const database = firebase.database();
+// const database = firebase.database();
 
 const notes = [
   {
@@ -467,4 +467,9 @@ const notes = [
 //- the above code will trigger for the already existing data in the db
 //- its will also re-run for any new inserted expense data.
 
-export { firebase, database as default };
+const database = firebase.database();
+
+//firebase Authentication
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider(); //AuthProvider provide authentication or identifying that a user is which he/she is. We also have Twitter, Git, Facebase providers as well.
+
+export { firebase, googleAuthProvider, database as default };
