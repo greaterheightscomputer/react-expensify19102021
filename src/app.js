@@ -633,3 +633,92 @@ firebase.auth().onAuthStateChanged((user) => {
 // <PrivateRoute path="/dashboard" component={ExpenseDashboardPage} exact />
 // <PrivateRoute path="/create" component={AddExpensePage} exact />
 // <PrivateRoute path="/edit/:id" component={EditExpensePage} exact />
+
+//- push to both local and remote github repository
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git status
+//C:\ComputerD\react-course-projects032021\xpensify-app7>git commit -am "Add private routes"
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>git push
+//the above command will push to remote git repository
+//C:\ComputerD\react-course-projects032021\xpensify-app7>git push heroku main
+//the above command will redeploy your app to heroku web hosting site
+//- C:\ComputerD\react-course-projects032021\xpensify-app7>heroku open
+//its will open your web on this url https://react-expensify192021.herokuapp.com/
+
+//Public Only Routes
+//- After login onto the app we can still navigate back to login page by clicking on Dashboard
+//tab on the Dashboard Page which is a bad user experience, let fix it by creating publicRoute
+//component like the privateRoute component.
+//- create PublicRoute in routers/PublicRoute
+//- copy the content of copying PrivateRoute component onto PublicRoute
+//- remove the Header component on PublicRoute with it usage and modify the PublicRoute component
+//- import PublicRoute from "./PublicRoute"; onto AppRouter.js file.
+//- change the component below to PublicRoute
+// <Route path="/" component={LoginPage} exact={true} />
+//- remove help Route on AppRouter.js file with its usage and delete the component file in
+//src/components/HelpExpensePage.js
+//- go back to click on Dashboard tab it redirect you to Dashboard page not login page.
+//- open components/Header.js component for modification
+//- change this on the Header.js component
+//<NavLink to="/" activeClassName="is-active" exact={true}>
+//   Dashboard
+//</NavLink>
+//to this
+//<NavLink to="/dashboard" activeClassName="is-active">
+//   Dashboard
+//</NavLink>
+
+//Private Firebase Data
+//- its means that each user can create and manage their own data inside firebase db by setting
+//the RULES.
+//- open firebase.google.com, click Realtime Database to view the current structure of your db.
+//- this is how the currect db structure like
+// const db = {
+//   expenses: {
+//     asdd234: {
+//       description: "rent",
+//       amount: 3445,
+//       note: "I paid rent in 2020",
+//       createdAt: 23890019292933,
+//     },
+//   },
+// };
+//this is how the db structure will be inorder to manage individual user expenses
+// const db = {
+//   users: {
+//     uidspiipp: {
+//       expenses: {
+//         asdd234: {
+//           description: "rent",
+//           amount: 3445,
+//           note: "I paid rent in 2020",
+//           createdAt: 23890019292933,
+//         },
+//       },
+
+//     },
+//   },
+// };
+//- open src/actions/expenses.js
+//- let add user to the root of the ref() to all our Async Action Generator Function
+//- open tests/actions/expenses.test.js to modify all the Asyn Action Generator Function to
+//write and read data from the right location in the firebase by creating fake uid like this
+//const uid = "thisismytestuid"; and use it in the root ref() method
+//const defaultAuthState = { auth: { uid } };
+//- startup jest test suit
+//- the issue now is that the data is not yet private to individual user, its still access to
+//all the users.
+//- to make the data in db private will need to resetup the firebase RULE do this
+// {
+//   "rules": {
+//     ".read": false,
+//     ".write": false,
+//       "users":{
+//         "$user_id":{
+//           ".read": "$user_id === auth.uid",
+//             ".write":"$user_id === auth.uid"
+//         }
+//       }
+//   }
+// }
+//then click on Publish button
+//- Rules Playground to test the RULE you setup in firebase db
