@@ -238,7 +238,8 @@ import { firebase } from "./firebase/firebase";
 //the above command print out all the environment variables on heroku but currently we don't
 //have any environment variables, make sure your internet is on while executing the above command.
 //- setup firebaseConfig on heroku like this
-//C:\ComputerD\react-course-projects032021\xpensify-app7>heroku config:set FIREBASE_API_KEY=AIzaSyDmkFgQ9tRGIHvig_5wIe2OLMDlFoPb6yo
+//C:\ComputerD\react-course-projects032021\xpensify-app7>heroku config:set
+//FIREBASE_API_KEY=AIzaSyDmkFgQ9tRGIHvig_5wIe2OLMDlFoPb6yo
 //FIREBASE_AUTH_DOMAIN=expensify28102021.firebaseapp.com
 //FIREBASE_DATABASE_URL=https://expensify28102021-default-rtdb.firebaseio.com
 //FIREBASE_PROJECT_ID=expensify28102021 FIREBASE_STORAGE_BUCKET=expensify28102021.appspot.com
@@ -733,3 +734,58 @@ firebase.auth().onAuthStateChanged((user) => {
 //the above command will redeploy your app to heroku web hosting site
 //- C:\ComputerD\react-course-projects032021\xpensify-app7>heroku open
 //its will open your web on this url https://react-expensify192021.herokuapp.com/
+
+//Data Validation and Deployment
+//- validating the data store in the firebase db.
+//- the above object is from firebase RULE setting indicating that you can only write to
+//expenses array of object alone.
+// "$other":{
+//   ".validate": false
+// }
+//- to test the above validation click on Rules Playground button
+//- on the Rules Playground
+//- turn on the Authenticated
+//- Location: /users/3d0e8f52-8760-456d-b3c8-0dd32cec027d/test
+//in the above users means the specfic part of the db the user is using
+//3d0e8f52-8760-456d-b3c8-0dd32cec027d is the userId copied UID in the Rule Playground
+//test is a fake db area where the data is store and the will lead to returning error
+//change Location lable to this
+//- Location: /users/3d0e8f52-8760-456d-b3c8-0dd32cec027d/expenses
+//the above will pass becos expenses is the real area in db where data is stored.
+//- below is the complete RULE setup with the validation of data in the firebase
+// {
+//   "rules": {
+//     ".read": false,
+//     ".write": false,
+//       "users":{
+//         "$user_id":{
+//           ".read": "$user_id === auth.uid",
+//             ".write":"$user_id === auth.uid",
+//               "expenses":{
+//                 "$expense_id":{
+//                   ".validate": "newData.hasChildren(['description', 'note', 'amount', 'createdAt'])",
+//                     "description":{
+//                       ".validate": "newData.isString() && newData.val().length > 0"
+//                     },
+//                     "note":{
+//                       ".validate": "newData.isString()"
+//                     },
+//                     "amount":{
+//                       ".validate": "newData.isNumber()"
+//                     },
+//                     "createdAt":{
+//                       ".validate": "newData.isNumber()"
+//                     },
+//                     "$other":{
+//                 			".validate": false
+//               			}
+//                 }
+//               },
+//               "$other":{
+//                 ".validate": false
+//               }
+//         }
+//       }
+//   }
+// }
+//- click on published button once your done RULE setup.
