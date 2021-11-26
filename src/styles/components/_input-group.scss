@@ -1,0 +1,26 @@
+// .input-group {
+//   display: flex;
+//   margin-bottom: $l-size;
+// }
+
+//small screen
+.input-group {
+  display: flex;
+  margin-bottom: $m-size;
+  flex-direction: column;
+
+  //720px screen
+  @media (min-width: $desktop-breakpoint) {
+    flex-direction: row;
+    margin-bottom: $l-size;
+  }
+}
+
+.input-group__item {
+  margin-bottom: $s-size;
+
+  @media (min-width: $desktop-breakpoint) {
+    // margin-right: $s-size;
+    margin: 0 $s-size 0 0;
+  }
+}

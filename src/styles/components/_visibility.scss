@@ -1,0 +1,13 @@
+.show-for-mobile {
+  //width <= 720px or 45rem
+  @media (min-width: $desktop-breakpoint) {
+    display: none;
+  }
+}
+.show-for-desktop {
+  //width >= 720px or 45rem
+  @media (max-width: $desktop-breakpoint - 0.01rem) {
+    //0.01rem means both max-width and min-width will never meet
+    display: none;
+  }
+}
